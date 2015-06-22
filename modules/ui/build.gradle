@@ -1,3 +1,5 @@
+ext.description="Swing UI elements"
+
 dependencies {
     compile project(':modules:core')
     compile('com.fifesoft:rsyntaxtextarea:2.5.0')

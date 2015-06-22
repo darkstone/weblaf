@@ -1,3 +1,6 @@
+
+ext.description="Demo application for WEB L&F"
+
 dependencies {
 	compile project(':modules:ui')
 }

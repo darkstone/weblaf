@@ -1,1 +1,4 @@
-
+allprojects {
+    group = 'org.forevernow.weblaf-alee'
+    version = '1-SNAPSHOT'
+}
