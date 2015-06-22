@@ -1,0 +1,3 @@
+rootProject.name = 'weblaf'
+
+include('modules:core','modules:ui','modules:demo')
