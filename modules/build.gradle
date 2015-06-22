@@ -29,4 +29,15 @@ subprojects {
             }
         }
     }
+
+    task fixJavaResources() {
+        description = 'Moves resources from the java source folder into the src/main/resources directory.'
+        File resources = file('src/main/resources')
+        File sources = file('src/main/java')
+        ant.copy(todir:"$resources") {
+            fileset(dir:"$sources") {
+                exclude(name:"**/*.java")
+            }
+        }
+    }
 }
