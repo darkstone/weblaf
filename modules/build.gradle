@@ -4,6 +4,8 @@
  * libraries accrosss modules. Also enforces some settings across modules
  * such as the target version of the java compiler
  */
+ 
+ext.licenseDir = rootProject.file 'licenses' 
 
 subprojects {
 
@@ -38,8 +40,13 @@ subprojects {
         from sourceSets.main.allJava
     }
     
+    task javadocJar(type: Jar, dependsOn:javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+    
     ext.artifactName = "weblaf-$project.name"
-
+    
     publishing {
         publications {
             mavenJava(MavenPublication) {
@@ -47,6 +54,9 @@ subprojects {
                 from components.java
                 artifact sourceJar {
                     classifier 'sources'
+                }
+                artifact javadocJar {
+                    classifier 'javadoc'
                 }
                 if (project.ext.description) {
                     pom.withXml {
@@ -68,22 +78,38 @@ subprojects {
         }
     }
     
-    // Enforce common manifest for jars
+    // Enforce common manifest jar entries
     Map manifestAttribs = [:]
-    
-    if (project.ext.hasProperty('manifest')) {
-        manifestAttribs = (Map) project.ext.manifest
-    }
-    
+
     manifestAttribs['Manifest-Version'] = project.version
     manifestAttribs['Product-Vendor'] = 'WebLookAndFeel'
-    manifestAttribs.putIfAbsent('Product-Name', artifactName)
+    manifestAttribs['Product-Name'] = artifactName
     
     jar {
+    
         manifest {
             attributes = manifestAttribs           
         }
+        
+        from(licenseDir) {
+            include '**/*'
+            into 'licenses' 
+        }
     }
-    
-    
+       
+    artifacts {
+        archives jar
+        archives sourceJar
+        archives javadocJar
+    }
+
+    javadoc {
+        if (JavaVersion.current().isJava8Compatible()) {
+            tasks.withType(Javadoc) {
+                // disable the crazy super-strict doclint tool in Java 8
+                //noinspection SpellCheckingInspection
+                options.addStringOption('Xdoclint:none', '-quiet')
+            }
+        }
+    }
 }

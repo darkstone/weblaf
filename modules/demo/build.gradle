@@ -1,6 +1,10 @@
 
 ext.description="Demo application for WEB L&F"
 
+apply plugin: 'application'
+
+mainClassName = 'com.alee.examples.WebLookAndFeelDemo'
+
 dependencies {
 	compile project(':modules:ui')
 }
