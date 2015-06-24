@@ -1,4 +1,4 @@
 allprojects {
-    group = 'org.forevernow.weblaf-alee'
+    group = 'com.alee.weblaf'
     version = '1-SNAPSHOT'
 }

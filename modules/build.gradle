@@ -1,5 +1,24 @@
+/**
+ * Common Build script for all submodules. Handles mainly publishing to maven
+ * and provide a handy place to declare common, e.g. shared versions of external 
+ * libraries accrosss modules. Also enforces some settings across modules
+ * such as the target version of the java compiler
+ */
 
 subprojects {
+
+    // Declare commmon versions numbers for modules here:
+    // These versions are not enforced, but the module have to specifiy
+    // as part of the dependency decleration,
+    // for example: compile("com.fifesoft:rsyntaxtextarea:${versions.rsyntaxTextArea}")
+      
+    ext.versions = [
+        xstream:'1.4.7',
+        sl4fj:'1.7.7',
+        jerichoHtml:'3.3',
+        javaImagingScaling:'0.8.5',
+        rsyntaxTextArea:'2.5.0'
+    ]
     
     repositories {
         jcenter()
@@ -8,14 +27,23 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
+    // Target JDK 1.6 (should be 1.7, or even 1.8, as 1.7 is already being deprecated!)
+    ext.javacTarget = 1.6
+    compileJava {
+        sourceCompatibility = javacTarget
+        targetCompatibility = javacTarget
+    }
+
     task sourceJar(type: Jar) {
         from sourceSets.main.allJava
     }
+    
+    ext.artifactName = "weblaf-$project.name"
 
     publishing {
         publications {
             mavenJava(MavenPublication) {
-                artifactId "weblaf-$project.name"
+                artifactId artifactName
                 from components.java
                 artifact sourceJar {
                     classifier 'sources'
@@ -25,7 +53,6 @@ subprojects {
                         asNode().appendNode('description',project.ext.description)
                     }
                 }
-
             }
         }
     }
@@ -40,4 +67,23 @@ subprojects {
             }
         }
     }
+    
+    // Enforce common manifest for jars
+    Map manifestAttribs = [:]
+    
+    if (project.ext.hasProperty('manifest')) {
+        manifestAttribs = (Map) project.ext.manifest
+    }
+    
+    manifestAttribs['Manifest-Version'] = project.version
+    manifestAttribs['Product-Vendor'] = 'WebLookAndFeel'
+    manifestAttribs.putIfAbsent('Product-Name', artifactName)
+    
+    jar {
+        manifest {
+            attributes = manifestAttribs           
+        }
+    }
+    
+    
 }

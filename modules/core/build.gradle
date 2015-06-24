@@ -2,8 +2,8 @@
 ext.description="Core Module"
 
 dependencies {
-	compile('com.thoughtworks.xstream:xstream:1.4.7')
-	compile('org.slf4j:slf4j-simple:1.7.7')
-	compile('net.htmlparser.jericho:jericho-html:3.3')
-	compile('com.mortennobel:java-image-scaling:0.8.5')
+	compile("com.thoughtworks.xstream:xstream:${versions.xstream}")
+	compile("org.slf4j:slf4j-simple:${versions.sl4fj}")
+	compile("net.htmlparser.jericho:jericho-html:${versions.jerichoHtml}")
+	compile("com.mortennobel:java-image-scaling:${versions.javaImagingScaling}")
 }
