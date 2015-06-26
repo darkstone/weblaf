@@ -9,9 +9,9 @@ ext.licenseDir = rootProject.file 'licenses'
 
 subprojects {
 
-    // Declare commmon versions numbers for modules here:
+    // Declare common versions numbers for modules here:
     // These versions are not enforced, but the module have to specifiy
-    // as part of the dependency decleration,
+    // as part of the dependency declaration,
     // for example: compile("com.fifesoft:rsyntaxtextarea:${versions.rsyntaxTextArea}")
       
     ext.versions = [
@@ -86,6 +86,8 @@ subprojects {
     manifestAttribs['Product-Name'] = artifactName
     
     jar {
+
+        baseName = artifactName
     
         manifest {
             attributes = manifestAttribs           
@@ -108,7 +110,7 @@ subprojects {
         if (JavaVersion.current().isJava8Compatible()) {
             tasks.withType(Javadoc) {
                 // disable the crazy super-strict doclint tool in Java 8
-                //noinspection SpellCheckingInspection
+                // noinspection SpellCheckingInspection
                 options.addStringOption('Xdoclint:none', '-quiet')
             }
         }

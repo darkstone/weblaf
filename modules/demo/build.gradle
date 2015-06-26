@@ -15,7 +15,8 @@ jar {
     from sourceSets.main.allSource
 }
 
-task fatCapsule(type: FatCapsule) {
+task demoAppFatCapsule(type: FatCapsule) {
+    archiveName = 'weblafdemo.jar'
     setDescription(
         '\n\tCreates a fully executable jar (called a capsule) with \n' +
         '\tall dependencies included in a single jar. Run the jar with java, \n' +
