@@ -17,8 +17,9 @@ jar {
 
 task fatCapsule(type: FatCapsule) {
     setDescription(
-        "Creates a fully executable jar (called a capsule) with " +
-        "all dependencies included in a single jar")
+        '\n\tCreates a fully executable jar (called a capsule) with \n' +
+        '\tall dependencies included in a single jar. Run the jar with java, \n' +
+        '\tor in linux/osx by making it executable, and just clicking on it')
     capsuleManifest {
         applicationClass demoMainClassName
         reallyExecutable
