@@ -1,11 +1,13 @@
 plugins {
-    id "us.kirchmeier.capsule" version "1.0-rc1"
+    id 'us.kirchmeier.capsule'  version '1.0-rc1'
+    id 'de.gliderpilot.jnlp'    version '0.2.1'
 }
 
 ext.description = "Demo application for WEB L&F"
 ext.demoMainClassName = 'com.alee.examples.WebLookAndFeelDemo'
 
 apply plugin: 'application'
+apply plugin: 'de.gliderpilot.jnlp'
 
 dependencies {
 	compile project(':modules:ui')
@@ -15,7 +17,7 @@ jar {
     from sourceSets.main.allSource
 }
 
-task demoAppFatCapsule(type: FatCapsule) {
+task createDemoAppFatCapsule(type: FatCapsule) {
     archiveName = 'weblafdemo.jar'
     setDescription(
         '\n\tCreates a fully executable jar (called a capsule) with \n' +
@@ -25,5 +27,20 @@ task demoAppFatCapsule(type: FatCapsule) {
         applicationClass demoMainClassName
         reallyExecutable
         minJavaVersion = "${javacTarget}"
+    }
+}
+
+jnlp {
+    useVersions = true
+    withXml {
+        information {
+            title ext.description
+            vendor project.group ?: project.name
+        }
+        security {
+            'all-permissions'()
+        }
+
+        signJarParams = [keystore: "${keystoreFile}", alias: "${demoKeyAlias}", storepass: "${keystorePassword}"]
     }
 }

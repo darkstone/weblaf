@@ -1,4 +1,7 @@
+
+
 allprojects {
     group = 'com.alee.weblaf'
     version = '1-SNAPSHOT'
 }
+
