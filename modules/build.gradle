@@ -103,6 +103,7 @@ subprojects {
         archives javadocJar
     }
 
+    // Setup javadoc generation for modules.
     javadoc {
         if (JavaVersion.current().isJava8Compatible()) {
             tasks.withType(Javadoc) {

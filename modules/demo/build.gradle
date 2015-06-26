@@ -1,9 +1,11 @@
+plugins {
+    id "us.kirchmeier.capsule" version "1.0-rc1"
+}
 
-ext.description="Demo application for WEB L&F"
+ext.description = "Demo application for WEB L&F"
+ext.demoMainClassName = 'com.alee.examples.WebLookAndFeelDemo'
 
 apply plugin: 'application'
-
-mainClassName = 'com.alee.examples.WebLookAndFeelDemo'
 
 dependencies {
 	compile project(':modules:ui')
@@ -11,4 +13,15 @@ dependencies {
 
 jar {
     from sourceSets.main.allSource
+}
+
+task fatCapsule(type: FatCapsule) {
+    setDescription(
+        "Creates a fully executable jar (called a capsule) with " +
+        "all dependencies included in a single jar")
+    capsuleManifest {
+        applicationClass demoMainClassName
+        reallyExecutable
+        minJavaVersion = "${javacTarget}"
+    }
 }
